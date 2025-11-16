@@ -14,7 +14,12 @@ if st.button("Generate Video"):
     img = Image.new("RGB", (720, 1280), color=(0, 0, 0))  # black background
     draw = ImageDraw.Draw(img)
     font = ImageFont.load_default()
-    text_w, text_h = draw.textsize(prompt, font=font)
+
+    # Use textbbox instead of textsize
+    bbox = draw.textbbox((0, 0), prompt, font=font)
+    text_w = bbox[2] - bbox[0]
+    text_h = bbox[3] - bbox[1]
+
     draw.text(((720 - text_w) / 2, (1280 - text_h) / 2), prompt, font=font, fill=(255, 255, 255))
     img.save("frame.png")
 
