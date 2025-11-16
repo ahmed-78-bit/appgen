@@ -1,9 +1,9 @@
 import streamlit as st
 from moviepy.editor import ImageClip, CompositeVideoClip, AudioFileClip
-from gtts import gTTS
 from PIL import Image, ImageDraw, ImageFont
+import pyttsx3
 
-st.title("🎬 Free Prompt-to-Video Generator")
+st.title("🎬 Free Prompt-to-Video Generator (Offline TTS)")
 
 # User enters a prompt
 prompt = st.text_area("Enter your prompt (this will be turned into a video):")
@@ -11,16 +11,16 @@ prompt = st.text_area("Enter your prompt (this will be turned into a video):")
 duration = st.slider("Video duration (seconds)", 5, 60, 15)
 
 if st.button("Generate Video"):
-    # Step 1: Generate narration
-    tts = gTTS(prompt)
-    tts.save("voice.mp3")
+    # Step 1: Generate narration offline with pyttsx3
+    engine = pyttsx3.init()
+    engine.save_to_file(prompt, "voice.mp3")
+    engine.runAndWait()
     narration = AudioFileClip("voice.mp3")
 
     # Step 2: Create an image with text using PIL
     img = Image.new("RGB", (720, 1280), color=(0, 0, 0))  # black background
     draw = ImageDraw.Draw(img)
     font = ImageFont.load_default()
-    # Center text roughly
     text_w, text_h = draw.textsize(prompt, font=font)
     draw.text(((720 - text_w) / 2, (1280 - text_h) / 2), prompt, font=font, fill=(255, 255, 255))
     img.save("frame.png")
