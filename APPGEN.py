@@ -1,5 +1,3 @@
-!pip install streamlit moviepy gtts
-
 import streamlit as st
 from moviepy.editor import TextClip, CompositeVideoClip
 from gtts import gTTS
