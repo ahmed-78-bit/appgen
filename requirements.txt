@@ -1,5 +1,4 @@
 streamlit
 moviepy==1.0.3
 gTTS
-pyttsx3
 Pillow
